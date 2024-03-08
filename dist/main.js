@@ -1,0 +1,1 @@
+(()=>{"use strict";console.log(async function(e){const t=await fetch(`http://api.weatherapi.com/v1/current.json?key=db4d7cfe43f54003aa0155150240803&q=${e}&aqi=yes`);return(await t.json()).current.feelslike_f}("London"))})();
