@@ -29,16 +29,32 @@ body {
   border-radius: 50px;
   padding: 0 1em;
 }
-.content {
-  margin-top: 3em;
-}
 .weather {
   width: 500px;
   max-width: 80%;
-  margin: 0 auto;
+  margin: 3em auto;
   text-align: center;
   color: white;
 }
+.weather-temp-border {
+  margin: 2em auto;
+  width: 300px;
+  height: 300px;
+  border: 5px solid white;
+  border-radius: 50%;
+  position: relative;
+}
 .weather-temperature {
-  font-size: 10rem;
+  position: absolute;
+  font-size: 6rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#error {
+  width: 500px;
+  max-width: 80%;
+  margin: 3em auto;
+  text-align: center;
+  color: white;
 }
