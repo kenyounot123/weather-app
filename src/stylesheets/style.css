@@ -1,0 +1,44 @@
+@font-face {
+  font-family: "Lato";
+  src: url("./Lato/Lato-Regular.ttf") format("ttf");
+  font-weight: 400; /* Specify font weight */
+  font-style: normal;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #66b6d2;
+  font-family: "Lato", sans-serif;
+}
+.top-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 200px;
+}
+.search-bar {
+  width: 500px;
+  max-width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-radius: 50px;
+  padding: 0 1em;
+}
+.content {
+  margin-top: 3em;
+}
+.weather {
+  width: 500px;
+  max-width: 80%;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+}
+.weather-temperature {
+  font-size: 10rem;
+}
