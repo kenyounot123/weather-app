@@ -19,4 +19,23 @@ async function initialize() {
     createErrorElement();
     showError(`${error}`);
   }
+
+  (function addListeners() {
+    const searchInput = document.querySelector(".search");
+    const searchBtn = document.querySelector(".search-icon");
+
+    searchInput.addEventListener("input", (event) => {
+      console.log(event.target.value);
+    });
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        console.log("Enter key pressed");
+      }
+    });
+
+    searchBtn.addEventListener("click", () => {
+      console.log("hi");
+    });
+  })();
 }
