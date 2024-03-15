@@ -29,6 +29,11 @@ body {
   border-radius: 50px;
   padding: 0 1em;
 }
+.search {
+  font-size: 1.75rem;
+  border: none;
+  outline: none;
+}
 .weather {
   width: 500px;
   max-width: 80%;
