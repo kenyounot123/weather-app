@@ -12,4 +12,13 @@ async function fetchCurrentData(location = "Binghamton") {
   return weatherData;
 }
 
-export default fetchCurrentData;
+async function fetchLocationsData(char) {
+  const response = await fetch(
+    `http://api.weatherapi.com/v1/search.json?key=${weatherApiKey}&q=${char}`
+  );
+  const locationData = await response.json();
+
+  return locationData;
+}
+
+export { fetchCurrentData, fetchLocationsData };

@@ -1,17 +1,16 @@
 import {
   createErrorElement,
+  createSearchDropdown,
   createWeatherElements,
   showError,
 } from "./domUtils";
-import fetchCurrentData from "./fetchData";
+import { fetchCurrentData, fetchLocationsData } from "./fetchData";
 import "./stylesheets/style.css";
-
-initialize();
 
 async function initialize() {
   try {
     const data = await fetchCurrentData();
-    const currentTemp = data.current.feelslike_f;
+    const currentTemp = data.current.temp_f;
     const currentDescription = data.current.condition.text;
     const currentLocation = `${data.location.name}, ${data.location.region}`;
     createWeatherElements(currentLocation, currentDescription, currentTemp);
@@ -24,8 +23,19 @@ async function initialize() {
     const searchInput = document.querySelector(".search");
     const searchBtn = document.querySelector(".search-icon");
 
-    searchInput.addEventListener("input", (event) => {
-      console.log(event.target.value);
+    searchInput.addEventListener("input", async (e) => {
+      const dropdown = document.querySelector(".dropdown-menu");
+      if (dropdown) {
+        dropdown.innerHTML = "";
+      }
+      if (e.target.value) {
+        const char = e.target.value;
+        let locations = await fetchLocationsData(char);
+        console.log(locations);
+        createSearchDropdown(locations);
+      }
+      // Create div under seasrch bar to show results as I type
+      // Read target.value and display locations that match that value
     });
     searchInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
@@ -39,3 +49,5 @@ async function initialize() {
     });
   })();
 }
+
+initialize();

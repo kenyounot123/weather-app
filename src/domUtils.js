@@ -34,4 +34,30 @@ function showError(message) {
   const error = document.querySelector("#error");
   error.textContent = message;
 }
-export { createWeatherElements, showError, createErrorElement };
+function createSearchDropdown(data) {
+  const topSection = document.querySelector(".dropdown-menu");
+  const dropdown = document.createElement("ul");
+  dropdown.id = "dropdown";
+  if (data.length > 0) {
+    for (let location in data) {
+      const dropdownList = document.createElement("li");
+      const dropdownItem = document.createElement("a");
+
+      dropdownItem.classList.add("dropdown-menu-item");
+      dropdownItem.setAttribute("href", "#");
+      dropdownList.classList.add("dropdown-list");
+
+      dropdownItem.textContent = data[location].name;
+
+      dropdownList.append(dropdownItem);
+      dropdown.append(dropdownList);
+    }
+    topSection.append(dropdown);
+  }
+}
+export {
+  createWeatherElements,
+  showError,
+  createErrorElement,
+  createSearchDropdown,
+};
