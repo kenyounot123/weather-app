@@ -45,6 +45,12 @@ import "./stylesheets/style.css";
         createSearchDropdown(locations);
       }
     });
+    searchInput.addEventListener("blur", () => {
+      dropdown.style.display = "none";
+    });
+    searchInput.addEventListener("focus", () => {
+      dropdown.style.display = "block";
+    });
     // Event handler allowing pressing 'enter' key instead
     searchInput.addEventListener("keydown", async (event) => {
       if (event.key === "Enter") {

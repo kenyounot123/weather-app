@@ -93,3 +93,6 @@ body {
   text-align: center;
   color: white;
 }
+.show {
+  display: block;
+}

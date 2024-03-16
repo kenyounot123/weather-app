@@ -31,7 +31,7 @@ function createErrorElement() {
   body.append(error);
 }
 function createSearchDropdown(data) {
-  let clickedLocation = "";
+  const searchInput = document.querySelector(".search");
   const dropdownSection = document.querySelector(".dropdown-menu");
   const dropdown = document.createElement("ul");
   dropdown.id = "dropdown";
@@ -46,7 +46,8 @@ function createSearchDropdown(data) {
 
       dropdownItem.textContent = `${data[location].name}, ${data[location].region}`;
       dropdownItem.addEventListener("click", (event) => {
-        clickedLocation = event.target.textContent;
+        const clickedLocation = event.target.textContent;
+        searchInput.value = clickedLocation;
         console.log(clickedLocation);
       });
 
@@ -55,6 +56,5 @@ function createSearchDropdown(data) {
     }
     dropdownSection.append(dropdown);
   }
-  return Promise.resolve(clickedLocation);
 }
 export { createWeatherElements, createErrorElement, createSearchDropdown };
