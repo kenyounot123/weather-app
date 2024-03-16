@@ -41,6 +41,7 @@ body {
 .dropdown-menu-item {
   text-decoration: none;
   margin-left: 1.5em;
+  color: black;
 }
 .dropdown-list {
   margin: 1em 1em;
