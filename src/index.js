@@ -45,9 +45,18 @@ import "./stylesheets/style.css";
         createSearchDropdown(locations);
       }
     });
-    searchInput.addEventListener("blur", () => {
+    // Clicking outside of the search will hide the dropdown
+    searchInput.addEventListener("blur", (event) => {
+      if (
+        event.relatedTarget !== null &&
+        event.relatedTarget.className === "dropdown-menu-item"
+      ) {
+        searchInput.focus();
+        return;
+      }
       dropdown.style.display = "none";
     });
+    // Only show the dropdown when input field is focuesd
     searchInput.addEventListener("focus", () => {
       dropdown.style.display = "block";
     });
@@ -61,10 +70,13 @@ import "./stylesheets/style.css";
       }
     });
     // Event handler for clicking search icon
-    searchBtn.addEventListener("click", () => {
+    searchBtn.addEventListener("click", (event) => {
+      event.preventDefault();
       const location = searchInput.value;
-      clearWeatherElements();
-      fetchAndCreate(location);
+      if (location) {
+        clearWeatherElements();
+        fetchAndCreate(location);
+      }
     });
   })();
 })();

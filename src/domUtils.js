@@ -1,5 +1,37 @@
-function createWeatherElements(location, description, temp) {
+import cloudyImg from "./assets/images/cloudy.jpg";
+import sunnyImg from "./assets/images/sunny.jpg";
+// import rainyVid from "./assets/background-vids/rainy.mp4";
+// import snowyVid from "./assets/background-vids/snowy.mp4";
+
+function createBackgroundElement(weather) {
+  const imgContainer = document.createElement("div");
+  const img = document.createElement("img");
   const body = document.querySelector("body");
+  imgContainer.classList.add("img-container");
+  imgContainer.append(img);
+  img.id = "img-background";
+  // img.src = deafultImg;
+  if (weather.toLowerCase().includes("cloudy")) {
+    img.src = sunnyImg;
+  } else if (weather.toLowerCase().includes("sunny")) {
+    img.src = sunnyImg;
+    // } else if (weather.toLowerCase().includes("rainy")) {
+    //   video.src = rainyVid;
+    // } else if (weather.toLowerCase().includes("snowy")) {
+    //   video.src = snowyVid;
+    // } else {
+    // console.error("Weather condition not recognized:", weather);
+  }
+
+  // Append the video element to the document or wherever it needs to be appended
+  body.appendChild(imgContainer);
+}
+
+function createWeatherElements(location, description, temp) {
+  const video = document.createElement("video");
+  const body = document.querySelector("body");
+  video.innerHTML = "";
+  createBackgroundElement(description);
 
   const weatherSection = document.createElement("section");
   const weatherDescription = document.createElement("h3");
