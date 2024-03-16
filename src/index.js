@@ -2,7 +2,6 @@ import {
   createErrorElement,
   createSearchDropdown,
   createWeatherElements,
-  showError,
 } from "./domUtils";
 import { fetchCurrentData, fetchLocationsData } from "./fetchData";
 import "./stylesheets/style.css";
@@ -22,20 +21,16 @@ async function initialize() {
   (function addListeners() {
     const searchInput = document.querySelector(".search");
     const searchBtn = document.querySelector(".search-icon");
+    const dropdown = document.querySelector(".dropdown-menu");
+    const dropdownItem = document.querySelector(".dropdown-menu-item");
 
     searchInput.addEventListener("input", async (e) => {
-      const dropdown = document.querySelector(".dropdown-menu");
-      if (dropdown) {
-        dropdown.innerHTML = "";
-      }
       if (e.target.value) {
         const char = e.target.value;
-        let locations = await fetchLocationsData(char);
-        console.log(locations);
+        const locations = await fetchLocationsData(char);
+        dropdown.innerHTML = "";
         createSearchDropdown(locations);
       }
-      // Create div under seasrch bar to show results as I type
-      // Read target.value and display locations that match that value
     });
     searchInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
@@ -45,9 +40,15 @@ async function initialize() {
     });
 
     searchBtn.addEventListener("click", () => {
-      console.log("hi");
+      const location = searchInput.value;
     });
   })();
+  function showError(message) {
+    const error = document.querySelector("#error");
+    error.textContent = message;
+  }
+
+  function clearWeatherElements() {}
 }
 
 initialize();

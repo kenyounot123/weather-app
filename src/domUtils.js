@@ -30,16 +30,12 @@ function createErrorElement() {
   error.id = "error";
   body.append(error);
 }
-function showError(message) {
-  const error = document.querySelector("#error");
-  error.textContent = message;
-}
 function createSearchDropdown(data) {
-  const topSection = document.querySelector(".dropdown-menu");
+  const dropdownSection = document.querySelector(".dropdown-menu");
   const dropdown = document.createElement("ul");
   dropdown.id = "dropdown";
   if (data.length > 0) {
-    for (let location in data) {
+    for (let location = 0; location < data.length; location += 1) {
       const dropdownList = document.createElement("li");
       const dropdownItem = document.createElement("a");
 
@@ -47,17 +43,12 @@ function createSearchDropdown(data) {
       dropdownItem.setAttribute("href", "#");
       dropdownList.classList.add("dropdown-list");
 
-      dropdownItem.textContent = data[location].name;
+      dropdownItem.textContent = `${data[location].name}, ${data[location].region}`;
 
       dropdownList.append(dropdownItem);
       dropdown.append(dropdownList);
     }
-    topSection.append(dropdown);
+    dropdownSection.append(dropdown);
   }
 }
-export {
-  createWeatherElements,
-  showError,
-  createErrorElement,
-  createSearchDropdown,
-};
+export { createWeatherElements, createErrorElement, createSearchDropdown };
