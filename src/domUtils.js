@@ -1,7 +1,8 @@
 import cloudyImg from "./assets/images/cloudy.jpg";
 import sunnyImg from "./assets/images/sunny.jpg";
-// import rainyVid from "./assets/background-vids/rainy.mp4";
-// import snowyVid from "./assets/background-vids/snowy.mp4";
+import rainyImg from "./assets/images/rainy.jpg";
+import snowyImg from "./assets/images/snowy.png";
+import defaultImg from "./assets/images/default.jpeg";
 
 function createBackgroundElement(weather) {
   const imgContainer = document.createElement("div");
@@ -12,15 +13,15 @@ function createBackgroundElement(weather) {
   img.id = "img-background";
   // img.src = deafultImg;
   if (weather.toLowerCase().includes("cloudy")) {
-    img.src = sunnyImg;
+    img.src = cloudyImg;
   } else if (weather.toLowerCase().includes("sunny")) {
     img.src = sunnyImg;
-    // } else if (weather.toLowerCase().includes("rainy")) {
-    //   video.src = rainyVid;
-    // } else if (weather.toLowerCase().includes("snowy")) {
-    //   video.src = snowyVid;
-    // } else {
-    // console.error("Weather condition not recognized:", weather);
+  } else if (weather.toLowerCase().includes("rainy")) {
+    img.src = rainyImg;
+  } else if (weather.toLowerCase().includes("snowy")) {
+    img.src = snowyImg;
+  } else {
+    img.src = cloudyImg;
   }
 
   // Append the video element to the document or wherever it needs to be appended
@@ -28,9 +29,8 @@ function createBackgroundElement(weather) {
 }
 
 function createWeatherElements(location, description, temp) {
-  const video = document.createElement("video");
   const body = document.querySelector("body");
-  video.innerHTML = "";
+
   createBackgroundElement(description);
 
   const weatherSection = document.createElement("section");
@@ -80,7 +80,6 @@ function createSearchDropdown(data) {
       dropdownItem.addEventListener("click", (event) => {
         const clickedLocation = event.target.textContent;
         searchInput.value = clickedLocation;
-        console.log(clickedLocation);
       });
 
       dropdownList.append(dropdownItem);
@@ -89,4 +88,12 @@ function createSearchDropdown(data) {
     dropdownSection.append(dropdown);
   }
 }
-export { createWeatherElements, createErrorElement, createSearchDropdown };
+function createAllElements(data) {
+  const temp = data.current.temp_f;
+  const description = data.current.condition.text;
+  const location = `${data.location.name}, ${data.location.region}`;
+  createErrorElement();
+  createWeatherElements(location, description, temp);
+  createBackgroundElement(description);
+}
+export { createSearchDropdown, createAllElements };

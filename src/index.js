@@ -1,8 +1,4 @@
-import {
-  createErrorElement,
-  createSearchDropdown,
-  createWeatherElements,
-} from "./domUtils";
+import { createAllElements, createSearchDropdown } from "./domUtils";
 import { fetchCurrentData, fetchLocationsData } from "./fetchData";
 import "./stylesheets/style.css";
 
@@ -16,19 +12,31 @@ import "./stylesheets/style.css";
     const weatherSection = document.querySelector(".weather");
     weatherSection.remove();
   }
+  function clearInputField() {
+    const searchInput = document.querySelector(".search");
+    searchInput.value = "";
+  }
 
   async function fetchAndCreate(location) {
     try {
       const data = await fetchCurrentData(location);
-      const currentTemp = data.current.temp_f;
-      const currentDescription = data.current.condition.text;
-      const currentLocation = `${data.location.name}, ${data.location.region}`;
-      createWeatherElements(currentLocation, currentDescription, currentTemp);
+      createAllElements(data);
     } catch (error) {
-      createErrorElement();
       showError(`${error}`);
     }
   }
+  // async function fetchAndCreate(location) {
+  //   try {
+  //     const data = await fetchCurrentData(location);
+  //     const currentTemp = data.current.temp_f;
+  //     const currentDescription = data.current.condition.text;
+  //     const currentLocation = `${data.location.name}, ${data.location.region}`;
+  //     createWeatherElements(currentLocation, currentDescription, currentTemp);
+  //   } catch (error) {
+  //     createErrorElement();
+  //     showError(`${error}`);
+  //   }
+  // }
 
   (async function addListeners() {
     await fetchAndCreate();
@@ -67,6 +75,7 @@ import "./stylesheets/style.css";
         const submitValue = searchInput.value;
         clearWeatherElements();
         fetchAndCreate(submitValue);
+        clearInputField();
       }
     });
     // Event handler for clicking search icon
@@ -76,6 +85,7 @@ import "./stylesheets/style.css";
       if (location) {
         clearWeatherElements();
         fetchAndCreate(location);
+        clearInputField();
       }
     });
   })();
