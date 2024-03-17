@@ -7,10 +7,7 @@ import "./stylesheets/style.css";
     const error = document.querySelector("#error");
     error.textContent = message;
   }
-  function clearDisplay() {
-    clearImgElement();
-    clearWeatherElements();
-  }
+
   function clearImgElement() {
     const imgContainer = document.querySelector(".img-container");
     imgContainer.remove();
@@ -23,6 +20,9 @@ import "./stylesheets/style.css";
     const searchInput = document.querySelector(".search");
     searchInput.value = "";
   }
+  function clearDisplay() {
+    clearWeatherElements();
+  }
 
   async function fetchAndCreate(location) {
     try {
@@ -32,18 +32,6 @@ import "./stylesheets/style.css";
       showError(`${error}`);
     }
   }
-  // async function fetchAndCreate(location) {
-  //   try {
-  //     const data = await fetchCurrentData(location);
-  //     const currentTemp = data.current.temp_f;
-  //     const currentDescription = data.current.condition.text;
-  //     const currentLocation = `${data.location.name}, ${data.location.region}`;
-  //     createWeatherElements(currentLocation, currentDescription, currentTemp);
-  //   } catch (error) {
-  //     createErrorElement();
-  //     showError(`${error}`);
-  //   }
-  // }
 
   (async function addListeners() {
     await fetchAndCreate();

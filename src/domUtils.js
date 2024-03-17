@@ -2,31 +2,24 @@ import cloudyImg from "./assets/images/cloudy.jpg";
 import sunnyImg from "./assets/images/sunny.jpg";
 import rainyImg from "./assets/images/rainy.jpg";
 import snowyImg from "./assets/images/snowy.png";
-import defaultImg from "./assets/images/default.jpeg";
 
 function createBackgroundElement(data) {
-  const weather = data.current.condition.text;
-
-  const imgContainer = document.createElement("div");
-  const img = document.createElement("img");
+  const weather = data.current.condition.text.toLowerCase();
   const body = document.querySelector("body");
-  imgContainer.classList.add("img-container");
-  imgContainer.append(img);
-  img.id = "img-background";
-  if (weather.toLowerCase().includes("cloudy")) {
-    img.src = cloudyImg;
-  } else if (weather.toLowerCase().includes("sunny")) {
-    img.src = sunnyImg;
-  } else if (weather.toLowerCase().includes("rainy")) {
-    img.src = rainyImg;
-  } else if (weather.toLowerCase().includes("snowy")) {
-    img.src = snowyImg;
+  body.style.backgroundSize = "cover";
+  body.style.backgroundPosition = "center";
+  body.style.backgroundRepeat = "no-repeat";
+  if (weather.includes("cloud")) {
+    body.style.backgroundImage = `url('${cloudyImg}')`;
+  } else if (weather.includes("sun")) {
+    body.style.backgroundImage = `url('${sunnyImg}')`;
+  } else if (weather.includes("rain") || weather.includes("drizzle")) {
+    body.style.backgroundImage = `url('${rainyImg}')`;
+  } else if (weather.includes("snow")) {
+    body.style.backgroundImage = `url('${snowyImg}')`;
   } else {
-    img.src = cloudyImg;
+    body.style.backgroundImage = `url('${cloudyImg}')`;
   }
-
-  // Append the video element to the document or wherever it needs to be appended
-  body.appendChild(imgContainer);
 }
 
 function createWeatherElements(data) {
@@ -73,8 +66,6 @@ function createErrorElement() {
   error.id = "error";
   body.append(error);
 }
-
-function createForecastElements() {}
 
 function createSearchDropdown(data) {
   const searchInput = document.querySelector(".search");
