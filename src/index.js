@@ -7,7 +7,14 @@ import "./stylesheets/style.css";
     const error = document.querySelector("#error");
     error.textContent = message;
   }
-
+  function clearDisplay() {
+    clearImgElement();
+    clearWeatherElements();
+  }
+  function clearImgElement() {
+    const imgContainer = document.querySelector(".img-container");
+    imgContainer.remove();
+  }
   function clearWeatherElements() {
     const weatherSection = document.querySelector(".weather");
     weatherSection.remove();
@@ -73,7 +80,7 @@ import "./stylesheets/style.css";
       if (event.key === "Enter") {
         event.preventDefault();
         const submitValue = searchInput.value;
-        clearWeatherElements();
+        clearDisplay();
         fetchAndCreate(submitValue);
         clearInputField();
       }
@@ -83,7 +90,7 @@ import "./stylesheets/style.css";
       event.preventDefault();
       const location = searchInput.value;
       if (location) {
-        clearWeatherElements();
+        clearDisplay();
         fetchAndCreate(location);
         clearInputField();
       }

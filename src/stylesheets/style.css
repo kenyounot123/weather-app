@@ -89,6 +89,13 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.sub-temp {
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  transform: translate(-50%);
+  font-size: 1.2rem;
+}
 #error {
   width: 500px;
   max-width: 80%;

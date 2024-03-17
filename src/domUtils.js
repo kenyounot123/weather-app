@@ -4,14 +4,15 @@ import rainyImg from "./assets/images/rainy.jpg";
 import snowyImg from "./assets/images/snowy.png";
 import defaultImg from "./assets/images/default.jpeg";
 
-function createBackgroundElement(weather) {
+function createBackgroundElement(data) {
+  const weather = data.current.condition.text;
+
   const imgContainer = document.createElement("div");
   const img = document.createElement("img");
   const body = document.querySelector("body");
   imgContainer.classList.add("img-container");
   imgContainer.append(img);
   img.id = "img-background";
-  // img.src = deafultImg;
   if (weather.toLowerCase().includes("cloudy")) {
     img.src = cloudyImg;
   } else if (weather.toLowerCase().includes("sunny")) {
@@ -28,31 +29,41 @@ function createBackgroundElement(weather) {
   body.appendChild(imgContainer);
 }
 
-function createWeatherElements(location, description, temp) {
+function createWeatherElements(data) {
+  const temp = data.current.temp_f;
+  const description = data.current.condition.text;
+  const location = `${data.location.name}, ${data.location.region}`;
+  const minTemp = data.forecast.forecastday[0].day.mintemp_f;
+  const maxTemp = data.forecast.forecastday[0].day.maxtemp_f;
+
   const body = document.querySelector("body");
-
-  createBackgroundElement(description);
-
   const weatherSection = document.createElement("section");
+  const weatherContentContainer = document.createElement("div");
   const weatherDescription = document.createElement("h3");
   const weatherLocation = document.createElement("h1");
   const weatherTemperature = document.createElement("p");
   const weatherTemperatureOutline = document.createElement("div");
+  const weatherHighAndLowTemp = document.createElement("p");
 
   weatherSection.classList.add("weather");
   weatherDescription.classList.add("weather-description");
   weatherLocation.classList.add("weather-location");
   weatherTemperature.classList.add("weather-temperature");
   weatherTemperatureOutline.classList.add("weather-temp-border");
+  weatherContentContainer.classList.add("current-weather-details");
+  weatherHighAndLowTemp.classList.add("sub-temp");
 
   weatherLocation.textContent = `${location}`;
   weatherDescription.textContent = `${description}`;
   weatherTemperature.textContent = `${temp}°`;
+  weatherHighAndLowTemp.textContent = `H:${maxTemp}° L:${minTemp}°`;
 
   weatherTemperatureOutline.append(weatherTemperature);
-  weatherSection.append(weatherLocation);
-  weatherSection.append(weatherDescription);
-  weatherSection.append(weatherTemperatureOutline);
+  weatherTemperatureOutline.append(weatherHighAndLowTemp);
+  weatherContentContainer.append(weatherLocation);
+  weatherContentContainer.append(weatherDescription);
+  weatherContentContainer.append(weatherTemperatureOutline);
+  weatherSection.append(weatherContentContainer);
 
   body.append(weatherSection);
 }
@@ -62,6 +73,9 @@ function createErrorElement() {
   error.id = "error";
   body.append(error);
 }
+
+function createForecastElements() {}
+
 function createSearchDropdown(data) {
   const searchInput = document.querySelector(".search");
   const dropdownSection = document.querySelector(".dropdown-menu");
@@ -89,11 +103,8 @@ function createSearchDropdown(data) {
   }
 }
 function createAllElements(data) {
-  const temp = data.current.temp_f;
-  const description = data.current.condition.text;
-  const location = `${data.location.name}, ${data.location.region}`;
   createErrorElement();
-  createWeatherElements(location, description, temp);
-  createBackgroundElement(description);
+  createWeatherElements(data);
+  createBackgroundElement(data);
 }
 export { createSearchDropdown, createAllElements };
