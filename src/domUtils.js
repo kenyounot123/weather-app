@@ -1,23 +1,3 @@
-// import cloudyImg from "./assets/images/cloudy.jpg";
-// import sunnyImg from "./assets/images/sunny.jpg";
-// import rainyImg from "./assets/images/rainy.jpg";
-// import snowyImg from "./assets/images/snowy.png";
-
-// function createBackgroundElement(data) {
-//   const weather = data.current.condition.text.toLowerCase();
-//   const body = document.querySelector("body");
-//   if (weather.includes("cloud")) {
-//     body.style.backgroundImage = `url('${cloudyImg}')`;
-//   } else if (weather.includes("sun")) {
-//     body.style.backgroundImage = `url('${sunnyImg}')`;
-//   } else if (weather.includes("rain") || weather.includes("drizzle")) {
-//     body.style.backgroundImage = `url('${rainyImg}')`;
-//   } else if (weather.includes("snow")) {
-//     body.style.backgroundImage = `url('${snowyImg}')`;
-//   } else {
-//     body.style.backgroundImage = `url('${cloudyImg}')`;
-//   }
-// }
 function setTempValues(data, tempUnit = "farenheit") {
   const currentTemp = document.querySelector(".weather-temperature");
   const currentHighAndLowTemp = document.querySelector(".sub-temp");
@@ -109,26 +89,25 @@ function createSearchDropdown(data) {
   const dropdownSection = document.querySelector(".dropdown-menu");
   const dropdown = document.createElement("ul");
   dropdown.id = "dropdown";
-  if (data.length > 0) {
-    for (let location = 0; location < data.length; location += 1) {
-      const dropdownList = document.createElement("li");
-      const dropdownItem = document.createElement("a");
 
-      dropdownItem.classList.add("dropdown-menu-item");
-      dropdownItem.setAttribute("href", "#");
-      dropdownList.classList.add("dropdown-list");
+  data.forEach((location) => {
+    const dropdownList = document.createElement("li");
+    const dropdownItem = document.createElement("a");
 
-      dropdownItem.textContent = `${data[location].name}, ${data[location].region}`;
-      dropdownItem.addEventListener("click", (event) => {
-        const clickedLocation = event.target.textContent;
-        searchInput.value = clickedLocation;
-      });
+    dropdownItem.classList.add("dropdown-menu-item");
+    dropdownItem.setAttribute("href", "#");
+    dropdownList.classList.add("dropdown-list");
 
-      dropdownList.append(dropdownItem);
-      dropdown.append(dropdownList);
-    }
-    dropdownSection.append(dropdown);
-  }
+    dropdownItem.textContent = `${location.name}, ${location.region}`;
+    dropdownItem.addEventListener("click", (event) => {
+      const clickedLocation = event.target.textContent;
+      searchInput.value = clickedLocation;
+    });
+
+    dropdownList.append(dropdownItem);
+    dropdown.append(dropdownList);
+  });
+  dropdownSection.append(dropdown);
 }
 function createAllElements(data) {
   // createBackgroundElement(data);

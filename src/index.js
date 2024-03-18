@@ -8,10 +8,6 @@ import "./stylesheets/style.css";
     error.textContent = message;
   }
 
-  function clearImgElement() {
-    const imgContainer = document.querySelector(".img-container");
-    imgContainer.remove();
-  }
   function clearWeatherElements() {
     const weatherSection = document.querySelector(".weather");
     weatherSection.remove();
@@ -20,12 +16,10 @@ import "./stylesheets/style.css";
     const searchInput = document.querySelector(".search");
     searchInput.value = "";
   }
-  function clearDisplay() {
-    clearWeatherElements();
-  }
   async function fetchAndCreate(location) {
     try {
       const data = await fetchCurrentData(location);
+      console.log(data);
       createAllElements(data);
     } catch (error) {
       showError(`${error}`);
@@ -64,22 +58,26 @@ import "./stylesheets/style.css";
     });
     // Event handler allowing pressing 'enter' key instead
     searchInput.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
+      const submitValue = searchInput.value;
+      // Check if user inputted a string of length greater than 0
+      if (event.key === "Enter" && submitValue.length > 0) {
         event.preventDefault();
-        const submitValue = searchInput.value;
-        clearDisplay();
+        clearWeatherElements();
         fetchAndCreate(submitValue);
         clearInputField();
+        dropdown.innerHTML = "";
       }
     });
     // Event handler for clicking search icon
     searchBtn.addEventListener("click", (event) => {
       event.preventDefault();
-      const location = searchInput.value;
-      if (location) {
-        clearDisplay();
-        fetchAndCreate(location);
+      const submitValue = searchInput.value;
+      // Check if user inputted a string of length greater than 0
+      if (submitValue.length > 0) {
+        clearWeatherElements();
+        fetchAndCreate(submitValue);
         clearInputField();
+        dropdown.innerHTML = "";
       }
     });
   })();
