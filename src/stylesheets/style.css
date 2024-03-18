@@ -12,6 +12,7 @@
 body {
   font-family: "Lato", sans-serif;
   height: 100vh;
+  background-image: url("../assets/images/background.jpg");
 }
 .top-section {
   height: 200px;

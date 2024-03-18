@@ -1,22 +1,40 @@
-import cloudyImg from "./assets/images/cloudy.jpg";
-import sunnyImg from "./assets/images/sunny.jpg";
-import rainyImg from "./assets/images/rainy.jpg";
-import snowyImg from "./assets/images/snowy.png";
+// import cloudyImg from "./assets/images/cloudy.jpg";
+// import sunnyImg from "./assets/images/sunny.jpg";
+// import rainyImg from "./assets/images/rainy.jpg";
+// import snowyImg from "./assets/images/snowy.png";
 
-function createBackgroundElement(data) {
-  const weather = data.current.condition.text.toLowerCase();
-  const body = document.querySelector("body");
-  if (weather.includes("cloud")) {
-    body.style.backgroundImage = `url('${cloudyImg}')`;
-  } else if (weather.includes("sun")) {
-    body.style.backgroundImage = `url('${sunnyImg}')`;
-  } else if (weather.includes("rain") || weather.includes("drizzle")) {
-    body.style.backgroundImage = `url('${rainyImg}')`;
-  } else if (weather.includes("snow")) {
-    body.style.backgroundImage = `url('${snowyImg}')`;
-  } else {
-    body.style.backgroundImage = `url('${cloudyImg}')`;
-  }
+// function createBackgroundElement(data) {
+//   const weather = data.current.condition.text.toLowerCase();
+//   const body = document.querySelector("body");
+//   if (weather.includes("cloud")) {
+//     body.style.backgroundImage = `url('${cloudyImg}')`;
+//   } else if (weather.includes("sun")) {
+//     body.style.backgroundImage = `url('${sunnyImg}')`;
+//   } else if (weather.includes("rain") || weather.includes("drizzle")) {
+//     body.style.backgroundImage = `url('${rainyImg}')`;
+//   } else if (weather.includes("snow")) {
+//     body.style.backgroundImage = `url('${snowyImg}')`;
+//   } else {
+//     body.style.backgroundImage = `url('${cloudyImg}')`;
+//   }
+// }
+function setTempValues(data, tempUnit = "farenheit") {
+  const currentTemp = document.querySelector(".weather-temperature");
+  const currentHighAndLowTemp = document.querySelector(".sub-temp");
+
+  const temp =
+    tempUnit === "celsius" ? data.current.temp_c : data.current.temp_f;
+  const minTemp =
+    tempUnit === "celsius"
+      ? data.forecast.forecastday[0].day.mintemp_c
+      : data.forecast.forecastday[0].day.mintemp_f;
+  const maxTemp =
+    tempUnit === "celsius"
+      ? data.forecast.forecastday[0].day.maxtemp_c
+      : data.forecast.forecastday[0].day.maxtemp_f;
+
+  currentTemp.textContent = `${temp}°`;
+  currentHighAndLowTemp.textContent = `H:${maxTemp}° L:${minTemp}°`;
 }
 
 function createWeatherElements(data) {
@@ -50,7 +68,7 @@ function createWeatherElements(data) {
 
   weatherTemperatureOutline.append(weatherTemperature);
   weatherTemperatureOutline.append(weatherHighAndLowTemp);
-  weatherTemperatureOutline.append(createTempToggle());
+  weatherTemperatureOutline.append(createTempToggle(data));
   weatherContentContainer.append(weatherLocation);
   weatherContentContainer.append(weatherDescription);
   weatherContentContainer.append(weatherTemperatureOutline);
@@ -59,7 +77,7 @@ function createWeatherElements(data) {
   body.append(weatherSection);
 }
 
-function createTempToggle() {
+function createTempToggle(data) {
   const toggleContainer = document.createElement("div");
   const tempToggle = document.createElement("input");
 
@@ -68,6 +86,14 @@ function createTempToggle() {
 
   tempToggle.setAttribute("type", "checkbox");
   toggleContainer.append(tempToggle);
+
+  tempToggle.addEventListener("change", (e) => {
+    if (e.target.checked) {
+      setTempValues(data, "celsius");
+    } else {
+      setTempValues(data);
+    }
+  });
 
   return toggleContainer;
 }
@@ -105,7 +131,7 @@ function createSearchDropdown(data) {
   }
 }
 function createAllElements(data) {
-  createBackgroundElement(data);
+  // createBackgroundElement(data);
   createErrorElement();
   createWeatherElements(data);
 }
