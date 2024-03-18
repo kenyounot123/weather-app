@@ -16,6 +16,26 @@ function setTempValues(data, tempUnit = "farenheit") {
   currentTemp.textContent = `${temp}°`;
   currentHighAndLowTemp.textContent = `H:${maxTemp}° L:${minTemp}°`;
 }
+function createTempToggle(data) {
+  const toggleContainer = document.createElement("div");
+  const tempToggle = document.createElement("input");
+
+  toggleContainer.classList.add("toggle-container");
+  tempToggle.id = "temp-toggle";
+
+  tempToggle.setAttribute("type", "checkbox");
+  toggleContainer.append(tempToggle);
+
+  tempToggle.addEventListener("change", (e) => {
+    if (e.target.checked) {
+      setTempValues(data, "celsius");
+    } else {
+      setTempValues(data);
+    }
+  });
+
+  return toggleContainer;
+}
 
 function createWeatherElements(data) {
   const temp = data.current.temp_f;
@@ -57,26 +77,6 @@ function createWeatherElements(data) {
   body.append(weatherSection);
 }
 
-function createTempToggle(data) {
-  const toggleContainer = document.createElement("div");
-  const tempToggle = document.createElement("input");
-
-  toggleContainer.classList.add("toggle-container");
-  tempToggle.id = "temp-toggle";
-
-  tempToggle.setAttribute("type", "checkbox");
-  toggleContainer.append(tempToggle);
-
-  tempToggle.addEventListener("change", (e) => {
-    if (e.target.checked) {
-      setTempValues(data, "celsius");
-    } else {
-      setTempValues(data);
-    }
-  });
-
-  return toggleContainer;
-}
 function createErrorElement() {
   const body = document.querySelector("body");
   const error = document.createElement("div");
@@ -110,8 +110,8 @@ function createSearchDropdown(data) {
   dropdownSection.append(dropdown);
 }
 function createAllElements(data) {
-  // createBackgroundElement(data);
   createErrorElement();
   createWeatherElements(data);
 }
+
 export { createSearchDropdown, createAllElements };

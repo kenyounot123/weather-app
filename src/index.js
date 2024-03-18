@@ -7,7 +7,16 @@ import "./stylesheets/style.css";
     const error = document.querySelector("#error");
     error.textContent = message;
   }
+  function createLoader(size) {
+    const loader = document.createElement("div");
 
+    loader.classList.add("loader", `loader--${size}`);
+
+    return loader;
+  }
+  function hideLoading(element) {
+    element.remove();
+  }
   function clearWeatherElements() {
     const weatherSection = document.querySelector(".weather");
     weatherSection.remove();
@@ -17,12 +26,17 @@ import "./stylesheets/style.css";
     searchInput.value = "";
   }
   async function fetchAndCreate(location) {
+    const body = document.querySelector("body");
+    const loader = createLoader("main");
+    body.append(loader);
     try {
       const data = await fetchCurrentData(location);
       console.log(data);
       createAllElements(data);
     } catch (error) {
       showError(`${error}`);
+    } finally {
+      hideLoading(loader);
     }
   }
 
@@ -31,14 +45,19 @@ import "./stylesheets/style.css";
     const searchInput = document.querySelector(".search");
     const searchBtn = document.querySelector(".search-icon");
     const dropdown = document.querySelector(".dropdown-menu");
+    let timer;
 
     // Event handler for search bar filtering searches as you type
-    searchInput.addEventListener("input", async (e) => {
-      if (e.target.value) {
-        const char = e.target.value;
-        const locations = await fetchLocationsData(char);
-        dropdown.innerHTML = "";
-        createSearchDropdown(locations);
+    // Only make the API call after the user has stopped typing
+    searchInput.addEventListener("input", (e) => {
+      const string = e.target.value;
+      clearTimeout(timer);
+      if (string) {
+        timer = setTimeout(async () => {
+          const searchResults = await fetchLocationsData(string);
+          dropdown.innerHTML = "";
+          createSearchDropdown(searchResults);
+        }, 500);
       }
     });
     // Clicking outside of the search will hide the dropdown
