@@ -23,21 +23,48 @@ import "./stylesheets/style.css";
   function clearDisplay() {
     clearWeatherElements();
   }
+  function setTempValues(data, tempUnit = "farenheit") {
+    const currentTemp = document.querySelector(".weather-temperature");
+    const currentHighAndLowTemp = document.querySelector(".sub-temp");
 
+    const temp =
+      tempUnit === "celsius" ? data.current.temp_c : data.current.temp_f;
+    const minTemp =
+      tempUnit === "celsius"
+        ? data.forecast.forecastday[0].day.mintemp_c
+        : data.forecast.forecastday[0].day.mintemp_f;
+    const maxTemp =
+      tempUnit === "celsius"
+        ? data.forecast.forecastday[0].day.maxtemp_c
+        : data.forecast.forecastday[0].day.maxtemp_f;
+
+    currentTemp.textContent = `${temp}°`;
+    currentHighAndLowTemp.textContent = `H:${maxTemp}° L:${minTemp}°`;
+  }
   async function fetchAndCreate(location) {
     try {
       const data = await fetchCurrentData(location);
       createAllElements(data);
+      return data;
     } catch (error) {
       showError(`${error}`);
     }
   }
 
   (async function addListeners() {
-    await fetchAndCreate();
+    const data = await fetchAndCreate();
     const searchInput = document.querySelector(".search");
     const searchBtn = document.querySelector(".search-icon");
     const dropdown = document.querySelector(".dropdown-menu");
+    const toggle = document.querySelector("#temp-toggle");
+
+    toggle.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        setTempValues(data, "celsius");
+      } else {
+        setTempValues(data);
+      }
+    });
 
     // Event handler for search bar filtering searches as you type
     searchInput.addEventListener("input", async (e) => {

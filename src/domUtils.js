@@ -58,6 +58,7 @@ function createWeatherElements(data) {
 
   body.append(weatherSection);
 }
+
 function createTempToggle() {
   const toggleContainer = document.createElement("div");
   const tempToggle = document.createElement("input");
