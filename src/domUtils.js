@@ -6,9 +6,6 @@ import snowyImg from "./assets/images/snowy.png";
 function createBackgroundElement(data) {
   const weather = data.current.condition.text.toLowerCase();
   const body = document.querySelector("body");
-  body.style.backgroundSize = "cover";
-  body.style.backgroundPosition = "center";
-  body.style.backgroundRepeat = "no-repeat";
   if (weather.includes("cloud")) {
     body.style.backgroundImage = `url('${cloudyImg}')`;
   } else if (weather.includes("sun")) {
@@ -53,12 +50,25 @@ function createWeatherElements(data) {
 
   weatherTemperatureOutline.append(weatherTemperature);
   weatherTemperatureOutline.append(weatherHighAndLowTemp);
+  weatherTemperatureOutline.append(createTempToggle());
   weatherContentContainer.append(weatherLocation);
   weatherContentContainer.append(weatherDescription);
   weatherContentContainer.append(weatherTemperatureOutline);
   weatherSection.append(weatherContentContainer);
 
   body.append(weatherSection);
+}
+function createTempToggle() {
+  const toggleContainer = document.createElement("div");
+  const tempToggle = document.createElement("input");
+
+  toggleContainer.classList.add("toggle-container");
+  tempToggle.id = "temp-toggle";
+
+  tempToggle.setAttribute("type", "checkbox");
+  toggleContainer.append(tempToggle);
+
+  return toggleContainer;
 }
 function createErrorElement() {
   const body = document.querySelector("body");
@@ -94,8 +104,8 @@ function createSearchDropdown(data) {
   }
 }
 function createAllElements(data) {
+  createBackgroundElement(data);
   createErrorElement();
   createWeatherElements(data);
-  createBackgroundElement(data);
 }
 export { createSearchDropdown, createAllElements };
