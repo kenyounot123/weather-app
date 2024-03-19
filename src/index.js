@@ -5,7 +5,7 @@ import "./stylesheets/style.css";
 (async function main() {
   function showError(error) {
     const errorContainer = document.querySelector("#error");
-    errorContainer.textContent = error.message;
+    errorContainer.textContent = error;
   }
   function createLoader(size) {
     const loader = document.createElement("div");

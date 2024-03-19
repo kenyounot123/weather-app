@@ -36,47 +36,81 @@ function createTempToggle(data) {
 
   return toggleContainer;
 }
-
 function createWeatherElements(data) {
+  const body = document.querySelector("body");
+  const weatherInfoSection = createWeatherInfoSection(data);
+  const weatherContentContainer = createWeatherContentContainer();
+  const weatherTemperatureSection = createWeatherTemperatures(data);
+
+  const weatherContent = appendElements(weatherContentContainer, [
+    weatherInfoSection,
+    weatherTemperatureSection,
+  ]);
+
+  body.append(weatherContent);
+}
+
+function createWeatherInfoSection(data) {
+  const weatherInfoSection = createElement("section", "weather");
+  const weatherLocation = createElement(
+    "h1",
+    "weather-location",
+    `${data.location.name}, ${data.location.region}`
+  );
+  const weatherDescription = createElement(
+    "h3",
+    "weather-description",
+    data.current.condition.text
+  );
+  return appendElements(weatherInfoSection, [
+    weatherLocation,
+    weatherDescription,
+  ]);
+}
+
+function createWeatherContentContainer() {
+  return createElement("div", "current-weather-details");
+}
+
+function createWeatherTemperatures(data) {
+  const tempUnitSwitch = createTempToggle(data);
   const temp = data.current.temp_f;
-  const description = data.current.condition.text;
-  const location = `${data.location.name}, ${data.location.region}`;
   const minTemp = data.forecast.forecastday[0].day.mintemp_f;
   const maxTemp = data.forecast.forecastday[0].day.maxtemp_f;
 
-  const body = document.querySelector("body");
-  const weatherSection = document.createElement("section");
-  const weatherContentContainer = document.createElement("div");
-  const weatherDescription = document.createElement("h3");
-  const weatherLocation = document.createElement("h1");
-  const weatherTemperature = document.createElement("p");
-  const weatherTemperatureOutline = document.createElement("div");
-  const weatherHighAndLowTemp = document.createElement("p");
+  const weatherTemperature = createElement(
+    "p",
+    "weather-temperature",
+    `${temp}°`
+  );
+  const weatherHighAndLowTemp = createElement(
+    "p",
+    "sub-temp",
+    `H:${maxTemp}° L:${minTemp}°`
+  );
+  const weatherTemperatureSection = createElement("div", "weather-temps");
 
-  weatherSection.classList.add("weather");
-  weatherDescription.classList.add("weather-description");
-  weatherLocation.classList.add("weather-location");
-  weatherTemperature.classList.add("weather-temperature");
-  weatherTemperatureOutline.classList.add("weather-temp-border");
-  weatherContentContainer.classList.add("current-weather-details");
-  weatherHighAndLowTemp.classList.add("sub-temp");
-
-  weatherLocation.textContent = `${location}`;
-  weatherDescription.textContent = `${description}`;
-  weatherTemperature.textContent = `${temp}°`;
-  weatherHighAndLowTemp.textContent = `H:${maxTemp}° L:${minTemp}°`;
-
-  weatherTemperatureOutline.append(weatherTemperature);
-  weatherTemperatureOutline.append(weatherHighAndLowTemp);
-  weatherTemperatureOutline.append(createTempToggle(data));
-  weatherContentContainer.append(weatherLocation);
-  weatherContentContainer.append(weatherDescription);
-  weatherContentContainer.append(weatherTemperatureOutline);
-  weatherSection.append(weatherContentContainer);
-
-  body.append(weatherSection);
+  appendElements(weatherTemperatureSection, [
+    weatherTemperature,
+    weatherHighAndLowTemp,
+    tempUnitSwitch,
+  ]);
+  return weatherTemperatureSection;
 }
 
+function createElement(tagName, className, textContent = "") {
+  const element = document.createElement(tagName);
+  if (className) {
+    element.classList.add(className);
+  }
+  element.textContent = textContent;
+  return element;
+}
+
+function appendElements(parent, children) {
+  children.forEach((child) => parent.appendChild(child));
+  return parent;
+}
 function createErrorElement() {
   const body = document.querySelector("body");
   const error = document.createElement("div");
