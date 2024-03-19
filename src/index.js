@@ -2,10 +2,10 @@ import { createAllElements, createSearchDropdown } from "./domUtils";
 import { fetchCurrentData, fetchLocationsData } from "./fetchData";
 import "./stylesheets/style.css";
 
-(function main() {
-  function showError(message) {
-    const error = document.querySelector("#error");
-    error.textContent = message;
+(async function main() {
+  function showError(error) {
+    const errorContainer = document.querySelector("#error");
+    errorContainer.textContent = error.message;
   }
   function createLoader(size) {
     const loader = document.createElement("div");
@@ -31,7 +31,6 @@ import "./stylesheets/style.css";
     body.append(loader);
     try {
       const data = await fetchCurrentData(location);
-      console.log(data);
       createAllElements(data);
     } catch (error) {
       showError(`${error}`);
@@ -40,8 +39,7 @@ import "./stylesheets/style.css";
     }
   }
 
-  (async function addListeners() {
-    await fetchAndCreate();
+  async function addListeners() {
     const searchInput = document.querySelector(".search");
     const searchBtn = document.querySelector(".search-icon");
     const dropdown = document.querySelector(".dropdown-menu");
@@ -99,5 +97,8 @@ import "./stylesheets/style.css";
         dropdown.innerHTML = "";
       }
     });
-  })();
+  }
+
+  await fetchAndCreate();
+  addListeners();
 })();
