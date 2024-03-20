@@ -42,9 +42,9 @@ function createWeatherElements(data) {
   const weatherContentContainer = createWeatherContentContainer();
   const weatherTemperatureSection = createWeatherTemperatures(data);
 
+  weatherInfoSection.append(weatherTemperatureSection);
   const weatherContent = appendElements(weatherContentContainer, [
     weatherInfoSection,
-    weatherTemperatureSection,
   ]);
 
   body.append(weatherContent);

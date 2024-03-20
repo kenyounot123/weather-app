@@ -25,18 +25,23 @@ import "./stylesheets/style.css";
     const searchInput = document.querySelector(".search");
     searchInput.value = "";
   }
-  async function fetchAndCreate(location) {
+  function fetchAndCreate(location) {
     const body = document.querySelector("body");
     const loader = createLoader("main");
     body.append(loader);
-    try {
-      const data = await fetchCurrentData(location);
-      createAllElements(data);
-    } catch (error) {
-      showError(`${error}`);
-    } finally {
-      hideLoading(loader);
-    }
+
+    return fetchCurrentData(location)
+      .then((data) => createAllElements(data))
+      .catch((error) => showError(error))
+      .finally(() => hideLoading(loader));
+    // try {
+    //   const data = await fetchCurrentData(location);
+    //   createAllElements(data);
+    // } catch (error) {
+    //   showError(`${error}`);
+    // } finally {
+    //   hideLoading(loader);
+    // }
   }
 
   async function addListeners() {
@@ -99,6 +104,5 @@ import "./stylesheets/style.css";
     });
   }
 
-  await fetchAndCreate();
-  addListeners();
+  fetchAndCreate().then(() => addListeners());
 })();
