@@ -111,12 +111,6 @@ function appendElements(parent, children) {
   children.forEach((child) => parent.appendChild(child));
   return parent;
 }
-function createErrorElement() {
-  const body = document.querySelector("body");
-  const error = document.createElement("div");
-  error.id = "error";
-  body.append(error);
-}
 
 function createSearchDropdown(data) {
   const searchInput = document.querySelector(".search");
@@ -144,7 +138,6 @@ function createSearchDropdown(data) {
   dropdownSection.append(dropdown);
 }
 function createAllElements(data) {
-  createErrorElement();
   createWeatherElements(data);
 }
 

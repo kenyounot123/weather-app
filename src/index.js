@@ -2,11 +2,22 @@ import { createAllElements, createSearchDropdown } from "./domUtils";
 import { fetchCurrentData, fetchLocationsData } from "./fetchData";
 import "./stylesheets/style.css";
 
-(async function main() {
-  function showError(error) {
-    const errorContainer = document.querySelector("#error");
-    errorContainer.textContent = error;
+(function main() {
+  function handleError(err) {
+    const body = document.querySelector("body");
+    const msg = document.createElement("h2");
+
+    msg.innerText = `${err}`;
+
+    msg.id = "error";
+
+    body.appendChild(msg);
   }
+
+  // function showError(error) {
+  //   const errorContainer = document.querySelector("#error");
+  //   errorContainer.textContent = `${error}`;
+  // }
   function createLoader(size) {
     const loader = document.createElement("div");
 
@@ -32,16 +43,8 @@ import "./stylesheets/style.css";
 
     return fetchCurrentData(location)
       .then((data) => createAllElements(data))
-      .catch((error) => showError(error))
+      .catch((err) => handleError(err))
       .finally(() => hideLoading(loader));
-    // try {
-    //   const data = await fetchCurrentData(location);
-    //   createAllElements(data);
-    // } catch (error) {
-    //   showError(`${error}`);
-    // } finally {
-    //   hideLoading(loader);
-    // }
   }
 
   async function addListeners() {

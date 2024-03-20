@@ -3,6 +3,9 @@ async function fetchCurrentData(location = "Binghamton", days = "1") {
   const response = await fetch(
     `http://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${location}&days=${days}aqi=no&alerts=no`
   );
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
   const weatherData = await response.json();
   return weatherData;
 }
