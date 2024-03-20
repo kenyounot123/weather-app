@@ -1,5 +1,12 @@
+import cloudyImg from "./assets/images/cloudy.gif";
+import sunnyImg from "./assets/images/sunny.gif";
+import rainyImg from "./assets/images/rainy.gif";
+import snowyImg from "./assets/images/snow.gif";
+import windyImg from "./assets/images/windy.gif";
+import stormImg from "./assets/images/storm.gif";
+
 function setTempValues(data, tempUnit = "farenheit") {
-  const currentTemp = document.querySelector(".weather-temperature");
+  const currentTemp = document.querySelector(".current-temperature");
   const currentHighAndLowTemp = document.querySelector(".sub-temp");
 
   const temp =
@@ -15,6 +22,26 @@ function setTempValues(data, tempUnit = "farenheit") {
 
   currentTemp.textContent = `${temp}°`;
   currentHighAndLowTemp.textContent = `H:${maxTemp}° L:${minTemp}°`;
+}
+function createWeatherImage(data) {
+  const weatherCondition = data.current.condition.text;
+  const img = createElement("img", "weather-condition-img");
+  const weather = weatherCondition.toLowerCase();
+
+  if (weather.includes("sun")) {
+    img.src = sunnyImg;
+  } else if (weather.includes("snow")) {
+    img.src = snowyImg;
+  } else if (weather.includes("rain")) {
+    img.src = rainyImg;
+  } else if (weather.includes("wind")) {
+    img.src = windyImg;
+  } else if (weather.includes("storm")) {
+    img.src = stormImg;
+  } else {
+    img.src = cloudyImg;
+  }
+  return img;
 }
 function createTempToggle(data) {
   const toggleContainer = document.createElement("div");
@@ -62,9 +89,11 @@ function createWeatherInfoSection(data) {
     "weather-description",
     data.current.condition.text
   );
+  const weatherImg = createWeatherImage(data);
   return appendElements(weatherInfoSection, [
     weatherLocation,
     weatherDescription,
+    weatherImg,
   ]);
 }
 
@@ -80,7 +109,7 @@ function createWeatherTemperatures(data) {
 
   const weatherTemperature = createElement(
     "p",
-    "weather-temperature",
+    "current-temperature",
     `${temp}°`
   );
   const weatherHighAndLowTemp = createElement(

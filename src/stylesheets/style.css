@@ -97,6 +97,7 @@ body {
   margin: 3em auto;
   text-align: center;
   color: white;
+  position: relative;
 }
 .weather-location {
   text-transform: uppercase;
@@ -104,6 +105,11 @@ body {
 .weather-location,
 .weather-description {
   min-width: 90%;
+}
+.weather-condition-img {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .weather-temps {
   margin: 2em auto 0;
@@ -114,7 +120,7 @@ body {
   border-radius: 50%;
   position: relative;
 }
-.weather-temperature {
+.current-temperature {
   position: absolute;
   font-size: 6rem;
   top: 50%;
