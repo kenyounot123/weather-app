@@ -1,10 +1,7 @@
 const weatherApiKey = "db4d7cfe43f54003aa0155150240803";
 async function fetchCurrentData(location = "Binghamton", days = "1") {
   const response = await fetch(
-    `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${location}&days=${days}aqi=no&alerts=no`,
-    {
-      mode: "cors",
-    }
+    `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${location}&days=${days}aqi=no&alerts=no`
   );
   if (!response.ok) {
     throw new Error("Network response was not ok");
@@ -15,10 +12,7 @@ async function fetchCurrentData(location = "Binghamton", days = "1") {
 
 async function fetchLocationsData(char) {
   const response = await fetch(
-    `https://api.weatherapi.com/v1/search.json?key=${weatherApiKey}&q=${char}`,
-    {
-      mode: "cors",
-    }
+    `https://api.weatherapi.com/v1/search.json?key=${weatherApiKey}&q=${char}`
   );
   const locationData = await response.json();
 
