@@ -14,10 +14,6 @@ import "./stylesheets/style.css";
     body.appendChild(msg);
   }
 
-  // function showError(error) {
-  //   const errorContainer = document.querySelector("#error");
-  //   errorContainer.textContent = `${error}`;
-  // }
   function createLoader(size) {
     const loader = document.createElement("div");
 
