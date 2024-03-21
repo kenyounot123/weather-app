@@ -1,4 +1,8 @@
-import { createAllElements, createSearchDropdown } from "./domUtils";
+import {
+  createWeatherElements,
+  createSearchDropdown,
+  clearWeatherElements,
+} from "./domUtils";
 import { fetchCurrentData, fetchLocationsData } from "./fetchData";
 import "./stylesheets/style.css";
 
@@ -24,10 +28,7 @@ import "./stylesheets/style.css";
   function hideLoading(element) {
     element.remove();
   }
-  function clearWeatherElements() {
-    const weatherSection = document.querySelector(".weather");
-    weatherSection.remove();
-  }
+
   function clearInputField() {
     const searchInput = document.querySelector(".search");
     searchInput.value = "";
@@ -38,7 +39,7 @@ import "./stylesheets/style.css";
     body.append(loader);
 
     return fetchCurrentData(location)
-      .then((data) => createAllElements(data))
+      .then((data) => createWeatherElements(data))
       .catch((err) => handleError(err))
       .finally(() => hideLoading(loader));
   }

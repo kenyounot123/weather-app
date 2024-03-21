@@ -166,8 +166,10 @@ function createSearchDropdown(data) {
   });
   dropdownSection.append(dropdown);
 }
-function createAllElements(data) {
-  createWeatherElements(data);
+
+function clearWeatherElements() {
+  const weatherSection = document.querySelector(".weather");
+  weatherSection.remove();
 }
 
-export { createSearchDropdown, createAllElements };
+export { createSearchDropdown, createWeatherElements, clearWeatherElements };
